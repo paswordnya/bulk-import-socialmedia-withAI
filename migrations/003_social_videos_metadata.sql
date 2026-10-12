@@ -1,0 +1,16 @@
+ALTER TABLE social_videos
+  ADD COLUMN published_at     TIMESTAMPTZ,
+  ADD COLUMN view_count       BIGINT CHECK (view_count >= 0),
+  ADD COLUMN like_count       BIGINT CHECK (like_count >= 0),
+  ADD COLUMN comment_count    BIGINT CHECK (comment_count >= 0),
+  ADD COLUMN repost_count     BIGINT CHECK (repost_count >= 0),
+  ADD COLUMN save_count       BIGINT CHECK (save_count >= 0),
+  ADD COLUMN music_title      TEXT,
+  ADD COLUMN music_artist     TEXT,
+  ADD COLUMN author_id        TEXT,
+  ADD COLUMN author_url       TEXT,
+  ADD COLUMN hashtags         TEXT[] NOT NULL DEFAULT '{}',
+  ADD COLUMN width            INTEGER,
+  ADD COLUMN height           INTEGER,
+  ADD COLUMN video_codec      TEXT,
+  ADD COLUMN file_size_bytes  BIGINT;

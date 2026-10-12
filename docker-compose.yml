@@ -1,0 +1,28 @@
+# Local development only. Credentials below are throwaway local values.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: otterway
+      POSTGRES_PASSWORD: local-dev-only
+      POSTGRES_DB: otterway
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: local-dev-only
+      MINIO_ROOT_PASSWORD: local-dev-only-secret
+    ports: ["9000:9000", "9001:9001"]
+    volumes: [miniodata:/data]
+  minio-init:
+    image: minio/mc
+    depends_on: [minio]
+    entrypoint: >
+      /bin/sh -c "sleep 3 &&
+      mc alias set local http://minio:9000 local-dev-only local-dev-only-secret &&
+      mc mb --ignore-existing local/otterway-videos"
+volumes:
+  pgdata:
+  miniodata:
